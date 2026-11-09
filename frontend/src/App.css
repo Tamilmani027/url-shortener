@@ -117,8 +117,8 @@ color:black;
 .home-container {
   background: linear-gradient(135deg, #cdd5e6, #1b112c);
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content:space-evenly;
+  align-items:center;
   padding: 2rem;
 }
 
@@ -150,10 +150,10 @@ color:black;
   color:white;
 }
 
-.auth-buttons,
-.dashboard-actions {
+.auth-buttons {
   display: flex;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content:space-evenly;
   gap: 1rem;
   flex-wrap: wrap;
 }
@@ -184,6 +184,8 @@ color:black;
 .logout-btn:hover {
   background: #dc2626 !important;
 }
+
+
 
 @media (max-width: 768px) {
   .home-card {

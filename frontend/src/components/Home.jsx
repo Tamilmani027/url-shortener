@@ -2,7 +2,7 @@ import React from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const isLoggedIn = true;
+  const isLoggedIn = false;
 
   const handleLogout = () => {
   
@@ -15,7 +15,6 @@ const Home = () => {
 
       {!isLoggedIn ? (
         <>
-          <p>Please login or register to shorten and manage your URLs.</p>
 
           <div className="auth-buttons">
             <Link to="/login">
