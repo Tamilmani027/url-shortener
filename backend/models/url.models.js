@@ -19,7 +19,12 @@ const userSchema = new mongoose.Schema(
         password: {
             type: String,
             required: true
-        }
+        },
+
+        activated:{
+            type:Boolean,
+            default:false
+            }
     },
     {
         timestamps: true

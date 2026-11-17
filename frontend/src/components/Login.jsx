@@ -2,9 +2,14 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import '../App.css';
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 
 const Login = () => {
+
+  const navigate=useNavigate();
   const initialValues = {
     email: "",
     password: "",
@@ -22,8 +27,10 @@ const Login = () => {
 
  const handleSubmit = async (values) => {
   try {
-    const response = await api.post("/auth/login", values);
+    const response = await axios.post("/login", values);
     console.log(response.data);
+    navigate('/dashboard')
+    toast.success("Login successful!");
   } catch (error) {
     console.error(error.response?.data);
   }
@@ -68,7 +75,7 @@ const Login = () => {
           </div>
 
           <button type="submit">Login</button>
-					<a>Forgot Password?</a>
+					<Link to='/forgot-password'>Forgot Password ?</Link>
         </Form>
       </Formik>
     </div>

@@ -1,9 +1,14 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import '../App.css';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Register = () => {
+
+  const navigate=useNavigate();
+
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -24,10 +29,14 @@ const Register = () => {
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      const response = await axios.post('/register',values);
-
+      const response = await axios.post('/register', {
+        name: `${values.firstName} ${values.lastName}`.trim(),
+        email: values.email,
+        password: values.password,
+      });
+      navigate('/emailActivation')
       console.log(response.data);
-      alert("Registration Successful");
+      toast.success("Registration successful! Please check your email to activate your account.");
       resetForm();
     } catch (error) {
       console.error(error.response?.data || error.message);
