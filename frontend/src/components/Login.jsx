@@ -5,11 +5,14 @@ import '../App.css';
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../slices/authSlice";
 
 
 const Login = () => {
 
   const navigate=useNavigate();
+  const dispatch = useDispatch();
   const initialValues = {
     email: "",
     password: "",
@@ -28,6 +31,15 @@ const Login = () => {
  const handleSubmit = async (values) => {
   try {
     const response = await axios.post("/login", values);
+    const { user } = response.data;
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+      if (user.token) {
+        localStorage.setItem("token", user.token);
+        axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+      }
+      dispatch(loginSuccess({ user, token: user.token }));
+    }
     console.log(response.data);
     navigate('/dashboard')
     toast.success("Login successful!");

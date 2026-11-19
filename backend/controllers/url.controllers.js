@@ -3,6 +3,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import sendMail from '../utils/mail.js';
 import { passwordReset } from "../services/sendMail.js";
+import { nanoid } from 'nanoid';
+import ShortUrl from '../models/shortUrl.model.js';
 
 export const register = async (req, res) => {
   try {
@@ -248,6 +250,72 @@ export const resetPassword = async (req, res) => {
 
         return res.status(500).json({
             message: "Internal server error"
+        });
+    }
+};
+
+export const createShortUrl = async (req, res) => {
+    try {
+        const { originalUrl } = req.body;
+
+        if (!originalUrl) {
+            return res.status(400).json({
+                message: "Original URL is required"
+            });
+        }
+
+        let shortCode;
+        let existingUrl = true;
+
+        while (existingUrl) {
+            shortCode = nanoid(8);
+            existingUrl = await ShortUrl.findOne({ shortCode });
+        }
+
+        const shortUrlDoc = await ShortUrl.create({
+            originalUrl,
+            shortCode,
+            user: req.userId
+        });
+
+        const baseUrl = `${req.protocol}://${req.get('host')}`;
+
+        return res.status(201).json({
+            message: "Short URL created successfully",
+            data: {
+                id: shortUrlDoc._id,
+                originalUrl: shortUrlDoc.originalUrl,
+                shortCode: shortUrlDoc.shortCode,
+                shortUrl: `${baseUrl}/${shortUrlDoc.shortCode}`,
+                clicks: shortUrlDoc.clicks
+            }
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+};
+
+export const redirectToOriginalUrl = async (req, res) => {
+    try {
+        const { shortCode } = req.params;
+
+        const urlDoc = await ShortUrl.findOne({ shortCode });
+
+        if (!urlDoc) {
+            return res.status(404).json({
+                message: "Short URL not found"
+            });
+        }
+
+        urlDoc.clicks += 1;
+        await urlDoc.save();
+
+        return res.redirect(urlDoc.originalUrl);
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
         });
     }
 };

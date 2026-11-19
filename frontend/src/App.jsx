@@ -7,6 +7,7 @@ import Dashboard from "./components/Dashboard";
 import EmailActivation from "./components/EmailActivation";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
+import ShortenUrl from "./components/ShortenUrl";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path:'/dashboard',
         element:<Dashboard/>
+      },
+      {
+        path:'/shorten',
+        element:<ShortenUrl/>
       },
        {
         path:'/emailActivation',
