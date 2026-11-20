@@ -20,12 +20,12 @@ const Home = () => {
   return (
 		<>
     <div className="home-container">
-      <h1>URL Shortener</h1>
 
       {!isLoggedIn ? (
         <>
 
           <div className="auth-buttons">
+            <h1>URL Shortener</h1>
             <Link to="/login">
               <button>Login</button>
             </Link>
@@ -41,7 +41,7 @@ const Home = () => {
 
           <div className="dashboard-actions">
             <button onClick={() => navigate('/shorten')}>Create Short URL</button>
-            <button>My URLs</button>
+            <button onClick={() => navigate('/my-urls')}>My URLs</button>
             <button onClick={handleLogout}>
               Logout
             </button>

@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './database/database.config.js';
 import routes from './routes/url.routes.js';
+import statsRoutes from './routes/stats.routes.js';
 import cors from 'cors';
 import { redirectToOriginalUrl } from './controllers/url.controllers.js';
 dotenv.config();
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 app.use('/api',routes);
+app.use('/api',statsRoutes);
 app.get('/:shortCode', redirectToOriginalUrl);
 
 const startServer = async () => {

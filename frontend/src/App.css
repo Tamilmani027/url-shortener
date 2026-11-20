@@ -119,7 +119,7 @@ color:black;
   display: flex;
   justify-content:space-evenly;
   align-items:center;
-  padding: 2rem;
+  padding:8px;
 }
 
 .home-card {
@@ -160,7 +160,7 @@ color:black;
 
 .auth-buttons button,
 .dashboard-actions button {
-  padding: 12px 24px;
+  padding: 8px 10px;
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -255,6 +255,11 @@ color:black;
   border-radius: 4px;
 
 }
+
+.dashboard-actions {
+  display:flex;
+  gap:10px;
+  }
 
 
 
